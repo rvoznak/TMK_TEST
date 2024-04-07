@@ -1,0 +1,24 @@
+
+Задание 2.1__________________________________________
+select bk.book_name, ar.author_name, bk.publish_date
+from book bk
+inner join author ar
+on bk.author_id = ar.author_id
+
+Задание 2.2__________________________________________
+ALTER TABLE Book ADD CONSTRAINT "Book_fk0" FOREIGN KEY ("book_id") REFERENCES Event_("book_id");
+ALTER TABLE Author ADD CONSTRAINT "Author_fk0" FOREIGN KEY ("author_id") REFERENCES Book ("author_id");
+ALTER TABLE Reader ADD CONSTRAINT "Reader_fk0" FOREIGN KEY ("reader_id") REFERENCES Event_ ("reader_id");
+
+Задание 2.3__________________________________________
+
+select book_name, reader_name, date_event
+from Author ar
+inner join book bk
+on ar.author_id=bk.author_id
+inner join Event_ et
+on et.book_id = bk.book_id
+inner join Reader rr
+on rr.reader_id = et.reader_id
+where (author_name like 'Иванов И.И.') and (date_event >= '2022-12-01' and typ_event <= '2022-12-02')
+order by reader_name

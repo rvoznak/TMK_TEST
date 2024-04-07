@@ -1,0 +1,60 @@
+DROP TABLE Book, Event_, Author, Reader;
+
+
+CREATE TABLE Book (
+	"book_id" bigint NOT NULL UNIQUE,
+	"book_name" text NOT NULL UNIQUE,
+	"publish_date" date NOT NULL UNIQUE,
+	"author_id" bigint NOT NULL UNIQUE,
+	"date_reg" date NOT NULL UNIQUE,
+	PRIMARY KEY ("book_id")
+);
+
+CREATE TABLE Author (
+	"author_id" bigint  NOT NULL UNIQUE,
+	"author_name" text NOT NULL UNIQUE,
+	"date_of_birth" date NOT NULL UNIQUE,
+	PRIMARY KEY ("author_id")
+);
+
+CREATE TABLE Reader (
+	"reader_id" bigint  NOT NULL UNIQUE,
+	"reader_name" text NOT NULL UNIQUE,
+	"date_reg" date NOT NULL UNIQUE,
+	PRIMARY KEY ("reader_id")
+);
+
+CREATE TABLE Event_ (
+	"event_id" bigint  NOT NULL UNIQUE,
+	"date_event" date NOT NULL UNIQUE,
+	"typ_event" date UNIQUE,
+	"reader_id" bigint NOT NULL UNIQUE,
+	"book_id" bigint NOT NULL UNIQUE,
+	PRIMARY KEY ("event_id")
+);
+
+ALTER TABLE Book ADD CONSTRAINT "Book_fk0" FOREIGN KEY ("book_id") REFERENCES Event_("book_id");
+ALTER TABLE Author ADD CONSTRAINT "Author_fk0" FOREIGN KEY ("author_id") REFERENCES Book ("author_id");
+ALTER TABLE Reader ADD CONSTRAINT "Reader_fk0" FOREIGN KEY ("reader_id") REFERENCES Event_ ("reader_id");
+
+INSERT INTO Event_ VALUES (1, '2000-01-08', '2000-04-08', 1, 1);
+INSERT INTO Event_ VALUES (2,'2000-02-08', '2000-05-08', 2, 2);
+INSERT INTO Event_ VALUES (3, '2022-12-01', '2022-12-02', 3, 3);
+INSERT INTO Event_ VALUES (4, '2022-12-24', '2022-12-25', 4, 4);
+INSERT INTO Event_ VALUES (5, '2022-12-26', '2022-12-28', 5, 5);
+
+INSERT INTO Reader VALUES (1, 'Роман', '2021-03-24');
+INSERT INTO Reader VALUES (2, 'Николай', '2020-02-21');
+INSERT INTO Reader VALUES (3, 'Василий', '2019-03-20');
+INSERT INTO Reader VALUES (4, 'Виктор', '2018-11-13');
+INSERT INTO Reader VALUES (5, 'Олег', '2017-07-19');
+
+INSERT INTO Book VALUES (1, 'Красная шапочка', '1990-05-08', 1, '2000-01-07');
+INSERT INTO Book VALUES (2, 'Карлик нос', '1989-05-08', 2, '2000-01-06');
+INSERT INTO Book VALUES (3, 'Зло', '2018-05-08', 3, '2019-01-06');
+-- INSERT INTO Book VALUES (4, 'Добро', '2019-08-12', 3, '2020-02-07');
+-- INSERT INTO Book VALUES (5, 'Клавиатурный человек', '2020-05-08', 3, '2020-06-18');
+
+INSERT INTO Author VALUES (1, 'Шарль Перро', '1628-01-12');
+INSERT INTO Author VALUES (2, 'Вильгельм Гауф', '1802-11-29');
+INSERT INTO Author VALUES (3, 'Иванов И.И.', '1998-12-21');

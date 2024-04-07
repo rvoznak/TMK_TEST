@@ -1,0 +1,61 @@
+CREATE TABLE IF NOT EXISTS "new_tool" (
+	"tool_id" bigint NOT NULL UNIQUE,
+	"name_nt" text NOT NULL,
+	"number" bigint NOT NULL,
+	"type" text NOT NULL,
+	PRIMARY KEY ("tool_id")
+);
+
+CREATE TABLE IF NOT EXISTS "ext_tool" (
+	"ext_id" bigint NULL UNIQUE,
+	"date_ext" date NOT NULL,
+	"division" text NOT NULL,
+	"number" bigint NOT NULL,
+	"date_to" date NOT NULL,
+	PRIMARY KEY ("ext_id")
+);
+
+CREATE TABLE IF NOT EXISTS "division" (
+	"div_id" bigint NOT NULL UNIQUE,
+	"name" text NOT NULL,
+	"number" bigint NOT NULL,
+	PRIMARY KEY ("div_id")
+);
+
+CREATE TABLE IF NOT EXISTS "reception" (
+	"id" bigint NOT NULL UNIQUE,
+	"date_cal" date NOT NULL,
+	"number" bigint NOT NULL,
+	"type" text NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "calibration" (
+	"id" bigint NOT NULL UNIQUE,
+	"date_to" date NOT NULL,
+	"number" bigint NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "cancellation" (
+	"id" bigint NOT NULL UNIQUE,
+	"number" bigint NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "type_tool" (
+	"id" bigint NOT NULL UNIQUE,
+	"type" bigint NOT NULL,
+	"time" text NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+ALTER TABLE "new_tool" ADD CONSTRAINT "new_tool_fk2" FOREIGN KEY ("number") REFERENCES "ext_tool"("number");
+ALTER TABLE "ext_tool" ADD CONSTRAINT "ext_tool_fk3" FOREIGN KEY ("number") REFERENCES "reception"("number");
+ALTER TABLE "division" ADD CONSTRAINT "division_fk2" FOREIGN KEY ("number") REFERENCES "ext_tool"("number");
+ALTER TABLE "reception" ADD CONSTRAINT "reception_fk2" FOREIGN KEY ("number") REFERENCES "calibration"("number");
+ALTER TABLE "calibration" ADD CONSTRAINT "calibration_fk1" FOREIGN KEY ("date_to") REFERENCES "ext_tool"("date_to");
+
+ALTER TABLE "calibration" ADD CONSTRAINT "calibration_fk2" FOREIGN KEY ("number") REFERENCES "cancellation"("number");
+
+ALTER TABLE "type_tool" ADD CONSTRAINT "type_tool_fk1" FOREIGN KEY ("type") REFERENCES "reception"("type");
